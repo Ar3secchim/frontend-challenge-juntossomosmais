@@ -7,6 +7,7 @@ export function Card({
   state,
   profile,
 }) {
+
   function capitalizeWords(sentence) {
     const words = sentence.split(" ");
 
@@ -51,7 +52,7 @@ export function Card({
         {capitalizeWords(name) + " " + capitalizeWords(lastName)}
       </h4>
 
-      <p className=" text-sm pb-3">{transformAdressFormat(adress)}</p>
+      <p className="text-center text-sm pb-3">{transformAdressFormat(adress)}</p>
 
       <span className="text-xs flex flex-col items-center">
         <p>{capitalizeWords(city)}</p>

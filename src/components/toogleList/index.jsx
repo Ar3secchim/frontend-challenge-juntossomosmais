@@ -32,7 +32,6 @@ export function ToggleList() {
               className=""
             />
             {state.name}
-            {state.isOpen && "filtered"}
           </li>
         ))}
       </ul>
