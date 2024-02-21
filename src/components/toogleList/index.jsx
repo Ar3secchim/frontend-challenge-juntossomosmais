@@ -21,7 +21,7 @@ export function ToggleList() {
   };
 
   return (
-    <div>
+    <>
       <ul>
         {states.map((state, index) => (
           <li key={index} className="pb-2 gap-2 flex">
@@ -32,14 +32,16 @@ export function ToggleList() {
               className=""
             />
             {state.name}
-            {state.isOpen && "filtered"}
           </li>
         ))}
       </ul>
 
-      <button className=" underline underline-offset-1 text-sm" onClick={handleToggleAll}>
+      <button
+        className=" underline underline-offset-1 text-sm"
+        onClick={handleToggleAll}
+      >
         Ver todos
       </button>
-    </div>
+    </>
   );
 }
