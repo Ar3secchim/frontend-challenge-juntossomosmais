@@ -1,12 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Card } from "../../components/card";
 import { ToggleList } from "../../components/toogleList";
 import { Pagination } from "../../components/pagination";
 import { useFetch } from "./useFetch";
 
 export function DetailsUser() {
+  const [statesFilter, setStatesFilter] = useState([]);
+
   let { users, currentUsers, loading, pages, itensPerPage, setCurrentPage } =
     useFetch();
+
+  const filteredUsers = users.filter((user) => {
+    return statesFilter.includes(user.location.state);
+  });
 
   return (
     <main className="mx-auto max-w-6xl px-6 mb-4">
@@ -16,9 +22,12 @@ export function DetailsUser() {
         <h1 className="pb-10 font-semibold text-3xl">Lista de membros</h1>
 
         <div className="grid grid-cols-4 grid-rows-1 gap-4">
-          <section className="h-[474px] col-span-1 p-6 rounded-[4px] border-[0.5px] border-[#E5E5E5]">
-            <h2 className="pb-[14px] text-xl font-medium flex">Por estado</h2>
-            <ToggleList />
+          <section className="col-span-1 p-6 rounded-[4px] border-[0.5px] border-[#E5E5E5]">
+            <ToggleList
+              title="Por estado"
+              statesFilter={statesFilter}
+              setStatesFilter={setStatesFilter}
+            />
           </section>
 
           <section className="col-span-3 flex flex-col gap-4">
@@ -39,20 +48,35 @@ export function DetailsUser() {
             <div className="flex flex-wrap gap-4">
               {loading && <div>Carregando...</div>}
 
-              {currentUsers.map((user, index) => {
-                return (
-                  <Card
-                    key={index}
-                    name={user.name.first}
-                    lastName={user.name.last}
-                    adress={user.location.street}
-                    city={user.location.city}
-                    state={user.location.state}
-                    adressCep={user.location.postcode}
-                    profile={user.picture.medium}
-                  />
-                );
-              })}
+              {statesFilter.length == 0
+                ? currentUsers.map((user, index) => {
+                    return (
+                      <Card
+                        key={index}
+                        name={user.name.first}
+                        lastName={user.name.last}
+                        adress={user.location.street}
+                        city={user.location.city}
+                        state={user.location.state}
+                        adressCep={user.location.postcode}
+                        profile={user.picture.medium}
+                      />
+                    );
+                  })
+                : filteredUsers.map((user, index) => {
+                    return (
+                      <Card
+                        key={index}
+                        name={user.name.first}
+                        lastName={user.name.last}
+                        adress={user.location.street}
+                        city={user.location.city}
+                        state={user.location.state}
+                        adressCep={user.location.postcode}
+                        profile={user.picture.medium}
+                      />
+                    );
+                  })}
             </div>
 
             <Pagination

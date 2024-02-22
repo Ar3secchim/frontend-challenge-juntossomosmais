@@ -1,47 +1,68 @@
-import { useState } from "react";
+import { useGetStages } from "./useGetStates";
 
-export function ToggleList() {
-  const [states, setStates] = useState([
-    { name: "São Paulo", isOpen: false },
-    { name: "Rio de Janeiro", isOpen: false },
-    { name: "Minas Gerais", isOpen: false },
-    { name: "Espírito Santo", isOpen: false },
-    { name: "Bahia", isOpen: false },
-  ]);
+export function ToggleList({ statesFilter, setStatesFilter, title }) {
+  const { allStates, loadingState } = useGetStages();
 
-  const toggleState = (index) => {
-    const updatedStates = [...states];
-    updatedStates[index].isOpen = !updatedStates[index].isOpen;
-    setStates(updatedStates);
+  const toggleState = (state) => {
+    if (statesFilter.includes(state)) {
+      setStatesFilter(
+        statesFilter.filter((selectedState) => selectedState !== state)
+      );
+    } else {
+      setStatesFilter([...statesFilter, state]);
+    }
   };
 
   const handleToggleAll = () => {
-    const updatedStates = states.map((state) => ({ ...state, isOpen: true }));
-    setStates(updatedStates);
+    setStatesFilter([]);
   };
+
+  function capitalizeWords(sentence) {
+    const words = sentence.split(" ");
+
+    const capitalizedWords = words.map((word) => {
+      if (word.length > 0) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      }
+      return word;
+    });
+
+    const capitalizedSentence = capitalizedWords.join(" ");
+    return capitalizedSentence;
+  }
 
   return (
     <>
+      {loadingState && <div>Carregando...</div>}
+      <h2 className="pb-[14px] text-xl font-medium">{title}</h2>
       <ul>
-        {states.map((state, index) => (
+        {allStates.map((state, index) => (
           <li key={index} className="pb-2 gap-2 flex">
             <input
               type="checkbox"
-              checked={state.isOpen}
-              onChange={() => toggleState(index)}
-              className=""
+              checked={statesFilter.includes(state)}
+              onChange={() => toggleState(state)}
             />
-            {state.name}
+            {capitalizeWords(state)}
           </li>
         ))}
       </ul>
 
-      <button
-        className=" underline underline-offset-1 text-sm"
-        onClick={handleToggleAll}
-      >
-        Ver todos
-      </button>
+      <div className="flex flex-col items-start gap-2">
+        <button
+          className="underline underline-offset-1 text-sm"
+          onClick={handleToggleAll}
+        >
+          Limpar filtro
+        </button>
+
+        <button
+          className=" underline underline-offset-1 text-sm"
+          onClick={handleToggleAll}
+        >
+          Ver todos
+        </button>
+      </div>
     </>
   );
 }
