@@ -1,6 +1,6 @@
-import SearchIcon from "../ui/icons/search.svg"
+import SearchIcon from "../ui/icons/search.svg";
 
-export function Input() {
+export function Input({ searchChange, searchTerm }) {
   return (
     <div className="flex px-4 items-center bg-white rounded-full border-[1px] border-gray-300">
       <img src={SearchIcon} />
@@ -8,6 +8,8 @@ export function Input() {
         type="text"
         placeholder="Buscar aqui"
         className=" my-3 w-[400px] focus:outline-0"
+        value={searchTerm}
+        onChange={searchChange}
       />
     </div>
   );

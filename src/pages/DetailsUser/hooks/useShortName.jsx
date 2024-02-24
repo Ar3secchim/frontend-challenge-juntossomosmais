@@ -21,7 +21,6 @@ export function useShort(allUsers, sortType) {
         setSortedUsers([...allUsers]);
       }
     };
-
     sortUsers();
   }, [allUsers, sortType]);
 

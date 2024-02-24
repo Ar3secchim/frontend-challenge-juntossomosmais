@@ -4,10 +4,8 @@ export function useFetch() {
   const [users, setUsers] = useState([]);
   const [loading, setIsLoading] = useState(true);
 
-  const [offset, setOffset] = useState(1);
-  const [limit, setLimit] = useState(200);
-  const starOffset = offset ;
-  const endLimit = limit ;
+  const starOffset = 1 ;
+  const endLimit = 200 ;
 
   const fetchData = async () => {
     try {
@@ -33,5 +31,6 @@ export function useFetch() {
   return {
     users,
     loading,
+
   };
 }

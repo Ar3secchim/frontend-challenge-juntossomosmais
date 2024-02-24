@@ -2,17 +2,16 @@ import { useState } from "react";
 import ArrowLeft from "../ui/icons/arrow-down.svg"; // Assuming the correct icon path
 import ArrowRight from "../ui/icons/arrow-up.svg"; // Assuming the correct icon path
 
-export function Pagination({ totalPages, setCurrentPage }) {
+export function Pagination({ totalPages, setCurrentPage, visiblePages = 5 }) {
   const [currentPage, setCurrentPageState] = useState(0);
 
   const handleClick = (pageNumber) => {
-    setCurrentPageState(pageNumber + 1);
-    setCurrentPage(pageNumber + 1);
+    setCurrentPageState(pageNumber);
+    setCurrentPage(pageNumber);
   };
 
   const renderPages = () => {
     const pages = [];
-    const visiblePages = 5;
     const maxVisiblePages = Math.min(totalPages, visiblePages);
 
     const startIndex = Math.max(
@@ -38,20 +37,19 @@ export function Pagination({ totalPages, setCurrentPage }) {
         </button>
       );
     }
-
     return pages;
   };
 
   const handlePrevious = () => {
-    const prevPage = currentPage;
-    setCurrentPageState(Math.max(0, prevPage - 1));
+    const prevPage = Math.max(0, currentPage - 1);
+    setCurrentPageState(prevPage);
     setCurrentPage(prevPage);
   };
 
   const handleNext = () => {
-    const prevPage = currentPage;
-    setCurrentPageState(Math.min(totalPages - 1, prevPage + 1));
-    setCurrentPage(prevPage);
+    const nextPage = Math.min(totalPages - 1, currentPage + 1);
+    setCurrentPageState(nextPage);
+    setCurrentPage(nextPage);
   };
 
   return (
@@ -59,14 +57,17 @@ export function Pagination({ totalPages, setCurrentPage }) {
       <button
         className="bg-[#4A4A4A] p-2 rounded-full w-8 h-8 text-center font-bold flex justify-center items-center text-white"
         onClick={handlePrevious}
+        disabled={currentPage === 0}
       >
         <img src={ArrowRight} alt="Previous" />
       </button>
+
       {renderPages()}
 
       <span
         className="bg-[#4A4A4A] p-2 rounded-full w-8 h-8 text-center font-bold flex justify-center items-center text-white"
         onClick={handleNext}
+        disabled={currentPage === totalPages - 1}
       >
         <img src={ArrowLeft} alt="Next" />
       </span>
