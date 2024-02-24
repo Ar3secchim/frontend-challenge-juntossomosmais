@@ -2,17 +2,33 @@ import { useState } from "react";
 import { Card } from "../../components/card";
 import { ToggleList } from "../../components/toogleList";
 import { Pagination } from "../../components/pagination";
-import { useFetch } from "./useFetch";
+import { useFetch } from "./hooks/useFetch";
+import { useShort } from "./hooks/useShortName";
 
 export function DetailsUser() {
+  const { users: allUsers, loading } = useFetch();
+
   const [statesFilter, setStatesFilter] = useState([]);
+  const [sortType, setSortType] = useState("name");
 
-  let { users, currentUsers, loading, pages, itensPerPage, setCurrentPage } =
-    useFetch();
+  const sortedUsers = useShort(allUsers, sortType);
 
-  const filteredUsers = users.filter((user) => {
-    return statesFilter.includes(user.location.state);
-  });
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itensPerPage, setItensPerPage] = useState(9);
+  const pages = Math.ceil(allUsers.length / itensPerPage);
+
+  const startIndex = currentPage * itensPerPage;
+  const endIndex = startIndex + itensPerPage;
+  const UsersPages = sortedUsers.slice(startIndex, endIndex);
+
+  const handleSortChange = (event) => {
+    setSortType(event.target.value === "default" ? "name" : event.target.value);
+  };
+
+  const filteredUsers =
+    statesFilter.length > 0
+      ? sortedUsers.filter((user) => statesFilter.includes(user.location.state))
+      : UsersPages;
 
   return (
     <main className="mx-auto max-w-6xl px-6 mb-4">
@@ -32,56 +48,40 @@ export function DetailsUser() {
 
           <section className="col-span-3 flex flex-col gap-4">
             <div className="h-14 flex justify-between items-center border-[0.5px] rounded-[4px] border-[#E5E5E5] px-6 py-2">
-              <p>{`Exibindo ${itensPerPage} de ${users.length} itens`}</p>
+              <p>{`Exibindo ${itensPerPage} de ${allUsers.length} itens`}</p>
 
               <div className="text-sm ">
                 Ordenar por:
-                <select className="text-sm bg-transparent focus:outline-0">
-                  <option className="bottom-0" value="true">
-                    nome
-                  </option>
-                  <option value="false">ultimo nome</option>
+                <select
+                  value={sortType}
+                  onChange={handleSortChange}
+                  className="text-sm bg-transparent focus:outline-0"
+                >
+                  <option value="name">Nome</option>
+                  <option value="lastName">Último Nome</option>
                 </select>
               </div>
             </div>
 
             <div className="flex flex-wrap gap-4">
               {loading && <div>Carregando...</div>}
-
-              {statesFilter.length == 0
-                ? currentUsers.map((user, index) => {
-                    return (
-                      <Card
-                        key={index}
-                        name={user.name.first}
-                        lastName={user.name.last}
-                        adress={user.location.street}
-                        city={user.location.city}
-                        state={user.location.state}
-                        adressCep={user.location.postcode}
-                        profile={user.picture.medium}
-                      />
-                    );
-                  })
-                : filteredUsers.map((user, index) => {
-                    return (
-                      <Card
-                        key={index}
-                        name={user.name.first}
-                        lastName={user.name.last}
-                        adress={user.location.street}
-                        city={user.location.city}
-                        state={user.location.state}
-                        adressCep={user.location.postcode}
-                        profile={user.picture.medium}
-                      />
-                    );
-                  })}
+              {filteredUsers.map((user, index) => (
+                <Card
+                  key={index}
+                  name={user.name.first}
+                  lastName={user.name.last}
+                  adress={user.location.street}
+                  city={user.location.city}
+                  state={user.location.state}
+                  adressCep={user.location.postcode}
+                  profile={user.picture.medium}
+                />
+              ))}
             </div>
 
             <Pagination
               totalPages={pages}
-              setCurrentPagesNumber={setCurrentPage}
+              setCurrentPage={setCurrentPage}
             />
           </section>
         </div>

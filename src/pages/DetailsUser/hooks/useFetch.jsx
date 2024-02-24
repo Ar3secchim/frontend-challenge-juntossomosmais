@@ -4,19 +4,10 @@ export function useFetch() {
   const [users, setUsers] = useState([]);
   const [loading, setIsLoading] = useState(true);
 
-  const [currentPage, setCurrentPage] = useState(0);
-  const [itensPerPage, setItensPerPage] = useState(9);
-
-  const pages = Math.ceil(users.length / itensPerPage);
-
-  const startIndex = currentPage * itensPerPage;
-  const endIndex = startIndex + itensPerPage;
-  const currentUsers = users.slice(startIndex, endIndex);
-
   const [offset, setOffset] = useState(1);
   const [limit, setLimit] = useState(200);
-  const starOffset = offset;
-  const endLimit = limit;
+  const starOffset = offset ;
+  const endLimit = limit ;
 
   const fetchData = async () => {
     try {
@@ -42,11 +33,5 @@ export function useFetch() {
   return {
     users,
     loading,
-    currentUsers,
-    currentPage,
-    itensPerPage,
-    pages,
-    setCurrentPage,
-    setItensPerPage,
   };
 }

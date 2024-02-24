@@ -5,7 +5,7 @@ const router = Router();
 const EXTERNAL_API_URL =
   "https://jsm-challenges.s3.amazonaws.com/frontend-challenge.json";
 
-function paginateResults(results, page, perPage) {
+function paginateResults(results, page = 1, perPage = 9) {
   const start = (page - 1) * perPage;
   const end = page * perPage;
 

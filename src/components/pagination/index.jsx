@@ -2,14 +2,12 @@ import { useState } from "react";
 import ArrowLeft from "../ui/icons/arrow-down.svg"; // Assuming the correct icon path
 import ArrowRight from "../ui/icons/arrow-up.svg"; // Assuming the correct icon path
 
-export function Pagination({ totalPages, setCurrentPagesNumber }) {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [activePage, setActivePage] = useState(0);
+export function Pagination({ totalPages, setCurrentPage }) {
+  const [currentPage, setCurrentPageState] = useState(0);
 
   const handleClick = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    setActivePage(pageNumber);
-    setCurrentPagesNumber(pageNumber);
+    setCurrentPageState(pageNumber + 1);
+    setCurrentPage(pageNumber + 1);
   };
 
   const renderPages = () => {
@@ -20,7 +18,7 @@ export function Pagination({ totalPages, setCurrentPagesNumber }) {
     const startIndex = Math.max(
       0,
       Math.min(
-        activePage - Math.floor(visiblePages / 2),
+        currentPage - Math.floor(visiblePages / 2),
         totalPages - maxVisiblePages
       )
     );
@@ -32,8 +30,7 @@ export function Pagination({ totalPages, setCurrentPagesNumber }) {
           key={i}
           value={i}
           className={`
-            ${i === activePage ? "active text-bold underline" : ""}
-            ${i === currentPage ? "current" : ""}
+            ${i === currentPage ? "active text-bold underline" : ""}
           `}
           onClick={(e) => handleClick(Number(e.target.value))}
         >
@@ -47,16 +44,14 @@ export function Pagination({ totalPages, setCurrentPagesNumber }) {
 
   const handlePrevious = () => {
     const prevPage = currentPage;
-    setCurrentPage((prevPage) => Math.max(0, prevPage - 1));
-    setActivePage(Math.max(0, prevPage - 1));
-    setCurrentPagesNumber(prevPage);
+    setCurrentPageState(Math.max(0, prevPage - 1));
+    setCurrentPage(prevPage);
   };
 
   const handleNext = () => {
     const prevPage = currentPage;
-    setCurrentPage((prevPage) => Math.min(totalPages - 1, prevPage + 1));
-    setActivePage(Math.min(totalPages - 1, prevPage + 1));
-    setCurrentPagesNumber(prevPage);
+    setCurrentPageState(Math.min(totalPages - 1, prevPage + 1));
+    setCurrentPage(prevPage);
   };
 
   return (
