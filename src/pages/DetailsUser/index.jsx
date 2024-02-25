@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { Card } from "../../components/card";
 import { ToggleList } from "../../components/toogleList";
 import { Pagination } from "../../components/pagination";
@@ -11,7 +12,7 @@ export function DetailsUser() {
   const { users: allUsers, loading } = useFetch();
   const [sortType, setSortType] = useState("name");
   const [searchTerm, setSearchTerm] = useState("");
-  
+
   const [statesFilter, setStatesFilter] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [itensPerPage, setItensPerPage] = useState(9);
@@ -50,7 +51,7 @@ export function DetailsUser() {
 
   const handleSortChange = (event) => {
     setSortType(event.target.value === "default" ? "name" : event.target.value);
-    setCurrentPage(0); 
+    setCurrentPage(0);
   };
 
   const handlePageChange = (pageNumber) => {
@@ -73,13 +74,11 @@ export function DetailsUser() {
           <h1 className="pb-10 font-semibold text-3xl">Lista de membros</h1>
 
           <div className="grid grid-cols-4 grid-rows-1 gap-4">
-            <section className="col-span-1 p-6 rounded-[4px] border-[0.5px] border-[#E5E5E5]">
-              <ToggleList
-                title="Por estado"
-                statesFilter={statesFilter}
-                setStatesFilter={setStatesFilter}
-              />
-            </section>
+            <ToggleList
+              title="Por estado"
+              statesFilter={statesFilter}
+              setStatesFilter={setStatesFilter}
+            />
 
             <section className="col-span-3 flex flex-col gap-4">
               <div className="h-14 flex justify-between items-center border-[0.5px] rounded-[4px] border-[#E5E5E5] px-6 py-2">
@@ -107,16 +106,21 @@ export function DetailsUser() {
                 {filteredUsers
                   .slice(startIndex, endIndex)
                   .map((user, index) => (
-                    <Card
-                      key={index}
-                      name={user.name.first}
-                      lastName={user.name.last}
-                      adress={user.location.street}
-                      city={user.location.city}
-                      state={user.location.state}
-                      adressCep={user.location.postcode}
-                      profile={user.picture.medium}
-                    />
+                    <link
+                      key={client.id}
+                      to={`/clients/${user.name.first + user.name.last}`}
+                    >
+                      <Card
+                        key={index}
+                        name={user.name.first}
+                        lastName={user.name.last}
+                        adress={user.location.street}
+                        city={user.location.city}
+                        state={user.location.state}
+                        adressCep={user.location.postcode}
+                        profile={user.picture.medium}
+                      />
+                    </link>
                   ))}
               </div>
 

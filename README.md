@@ -9,7 +9,7 @@ O JSON que você precisa desenvolver para este aplicativo está disponível em:
 
 - [x] Filtrar por estado;
 - [x] ordenar por ordem alfabética nome ou sobrenome;
-- [ ] Busca por nome e/ou sobrenome;
+- [x] Busca por nome e/ou sobrenome;
 - [x] Paginação para navegar entre cartões;
 - [ ] Navegação ao clicar em cartões de clientes;
 - [ ] Uma página interna com mais detalhes dos clientes (use sua criatividade);

@@ -2,26 +2,27 @@ import { useState } from "react";
 import ArrowLeft from "../ui/icons/arrow-down.svg"; // Assuming the correct icon path
 import ArrowRight from "../ui/icons/arrow-up.svg"; // Assuming the correct icon path
 
-export function Pagination({ totalPages, setCurrentPage, visiblePages = 5 }) {
+export function Pagination({ totalPages, setCurrentPage, }) {
+  var VISIBLE_PAGES = 5;
   const [currentPage, setCurrentPageState] = useState(0);
-
+  
   const handleClick = (pageNumber) => {
     setCurrentPageState(pageNumber);
     setCurrentPage(pageNumber);
   };
-
+  
   const renderPages = () => {
     const pages = [];
-    const maxVisiblePages = Math.min(totalPages, visiblePages);
+    const maxVisiblePages = Math.min(totalPages, VISIBLE_PAGES);
 
     const startIndex = Math.max(
       0,
       Math.min(
-        currentPage - Math.floor(visiblePages / 2),
+        currentPage - Math.floor(VISIBLE_PAGES / 2),
         totalPages - maxVisiblePages
       )
     );
-    const endIndex = Math.min(startIndex + visiblePages - 1, totalPages - 1);
+    const endIndex = Math.min(startIndex + VISIBLE_PAGES - 1, totalPages - 1);
 
     for (let i = startIndex; i <= endIndex; i++) {
       pages.push(
