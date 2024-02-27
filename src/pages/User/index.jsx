@@ -102,6 +102,10 @@ export function User() {
               </div>
 
               <div className="flex flex-wrap gap-4">
+                {!loading && filteredUsers == 0 && (
+                  <p className="font-bold">Nenhum usuário encontrado</p>
+                )}
+
                 {loading
                   ? [...Array(8)].map((_, index) => <Skeleton key={index} />)
                   : filteredUsers
@@ -121,8 +125,6 @@ export function User() {
                             adressCep={user.location.postcode}
                             profile={user.picture.medium}
                           />
-
-                          
                         </Link>
                       ))}
               </div>
