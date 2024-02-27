@@ -24,4 +24,4 @@ O JSON que você precisa desenvolver para este aplicativo está disponível em:
 - [x] Paginação para navegar entre cartões;
 - [x] Uma página interna com mais detalhes dos clientes (use sua criatividade);
 - [x] Navegação ao clicar em cartões de clientes;
-- [ ]Testes;
+- [ ] Testes;
