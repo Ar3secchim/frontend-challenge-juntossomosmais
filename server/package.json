@@ -4,8 +4,8 @@
   "description": "",
   "main": "serve.js",
   "scripts": {
-    "dev": "node serve.js --watch",
-    "build": "node serve.js",
+    "dev": "node server.js --watch",
+    "build": "node server.js",
     "vercel-deploy": "echo hellou word"
   },
   "keywords": [],
