@@ -1,137 +1,117 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { Card } from "../../components/card";
-import { ToggleList } from "../../components/toogleList";
-import { Pagination } from "../../components/pagination";
-import { Input } from "../../components/input";
-import { useFetch } from "./hooks/useFetch";
-import { useShort } from "./hooks/useShortName";
+import { useNavigate, useParams } from "react-router-dom";
+import { searchUserByName } from "./hook";
+import { useEffect, useState } from "react";
 import { Header } from "../../components/header";
+import { CapitalizeWords } from "../../utils/capitalizeWords";
+import { DateTransformer } from "./utils/dateTransformer";
+import skeletonImg from "../../components/ui/skeletonImg.png";
 
 export function DetailsUser() {
-  const { users: allUsers, loading } = useFetch();
-  const [sortType, setSortType] = useState("name");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [statesFilter, setStatesFilter] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [itensPerPage, setItensPerPage] = useState(9);
-
-  const sortedUsers = useShort(allUsers, sortType);
-
-  const filteredUsers = useMemo(() => {
-    let filtered = sortedUsers;
-
-    if (statesFilter.length > 0) {
-      filtered = filtered.filter((user) =>
-        statesFilter.includes(user.location.state)
-      );
-    }
-
-    if (searchTerm) {
-      const searchTermLower = searchTerm.toLowerCase();
-      filtered = filtered.filter((user) => {
-        const nameMatch =
-          user.name.first.toLowerCase().includes(searchTermLower) ||
-          user.name.last.toLowerCase().includes(searchTermLower);
-        return nameMatch;
-      });
-    }
-    return filtered;
-  }, [statesFilter, searchTerm, sortedUsers]);
-
-  let totalPages = Math.ceil(filteredUsers.length / itensPerPage);
-  const startIndex = currentPage * itensPerPage;
-  const endIndex = startIndex + itensPerPage;
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-    setCurrentPage(0);
-  };
-
-  const handleSortChange = (event) => {
-    setSortType(event.target.value === "default" ? "name" : event.target.value);
-    setCurrentPage(0);
-  };
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  const { name } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    totalPages = Math.ceil(filteredUsers.length / itensPerPage);
-  }, [filteredUsers]);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/`);
+        if (!response.ok) {
+          throw new Error("Erro ao obter os dados");
+        }
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (!error) {
+      const foundUser = searchUserByName(users, name);
+      if (foundUser instanceof Error) {
+        setError(foundUser.message);
+      } else {
+        setUser(foundUser);
+      }
+    }
+  }, [users, name, error]);
 
   return (
     <>
-      <Header>
-        <Input searchChange={handleSearchChange} searchTerm={searchTerm} />
-      </Header>
-      <main className="mx-auto max-w-6xl px-6 mb-4">
-        <p className="text-[12px] py-6">Home &gt; Usuário &gt; Detalhes </p>
-
-        <section>
-          <h1 className="pb-10 font-semibold text-3xl">Lista de membros</h1>
-
-          <div className="grid grid-cols-4 grid-rows-1 gap-4">
-            <ToggleList
-              title="Por estado"
-              statesFilter={statesFilter}
-              setStatesFilter={setStatesFilter}
+      <Header />
+      <section className="h-[590px]">
+        {loading && (
+          <div className="animate-pulse border-[0.5px] rounded-[4px] border-[#E5E5E5]bg-white p-8 flex flex-col items-center justify-center  mx-auto max-w-5xl my-9 ">
+            <img
+              className="w-40 h-40 rounded-full
+               mb-4 object-cover"
+              src={skeletonImg}
             />
 
-            <section className="col-span-3 flex flex-col gap-4">
-              <div className="h-14 flex justify-between items-center border-[0.5px] rounded-[4px] border-[#E5E5E5] px-6 py-2">
-                <p>{`Exibindo ${currentPage * itensPerPage} - ${
-                  itensPerPage + currentPage * 9
-                } 
-              de ${filteredUsers.length} itens`}</p>
+            <span className="w-44 h-4 mb-4  rounded-full bg-[#D8D8D8] "></span>
 
-                <div className="text-sm ">
-                  Ordenar por:
-                  <select
-                    value={sortType}
-                    onChange={handleSortChange}
-                    className="text-sm bg-transparent focus:outline-0"
-                  >
-                    <option value="name">Nome</option>
-                    <option value="lastName">Último Nome</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap gap-4">
-                {loading && <div>Carregando...</div>}
-
-                {filteredUsers
-                  .slice(startIndex, endIndex)
-                  .map((user, index) => (
-                    <link
-                      key={client.id}
-                      to={`/clients/${user.name.first + user.name.last}`}
-                    >
-                      <Card
-                        key={index}
-                        name={user.name.first}
-                        lastName={user.name.last}
-                        adress={user.location.street}
-                        city={user.location.city}
-                        state={user.location.state}
-                        adressCep={user.location.postcode}
-                        profile={user.picture.medium}
-                      />
-                    </link>
-                  ))}
-              </div>
-
-              <Pagination
-                totalPages={totalPages}
-                setCurrentPage={handlePageChange}
-              />
-            </section>
+            <span className="mb-3 w-28 h-3 rounded-full bg-[#D8D8D8] "></span>
+            <span className="mb-3 w-28 h-3 rounded-full bg-[#D8D8D8] "></span>
           </div>
-        </section>
-      </main>
+        )}
+
+        {!loading && !user && (
+          <div className="animate-pulse border-[0.5px] rounded-[4px] border-[#E5E5E5]bg-white p-8 flex flex-col items-center justify-center  mx-auto max-w-5xl my-9 ">
+            Usuário não encontrado
+            <button
+              className="mt-4 text-center bg-blue-500 hover:bg-blue-700 text-white rounded p-2"
+              onClick={() => navigate("/")}
+            >
+              Voltar
+            </button>
+          </div>
+        )}
+
+        {user && (
+          <div className="border-[0.5px] shadow-lg rounded-[4px] border-[#E5E5E5]bg-white p-8 flex flex-col items-center justify-center  mx-auto max-w-5xl my-9 ">
+            <img
+              src={user.picture.large}
+              alt={`${name.title}. ${user.name.first} ${user.name.last}`}
+              className="w-40 h-40 rounded-full
+               mb-4 object-cover"
+            />
+
+            <h2 className="text-2xl font-bold text-gray-800">
+              {CapitalizeWords(`${user.name.first} ${user.name.last}`)}
+            </h2>
+            <p className="text-gray-600 mb-2">Email: {user.email}</p>
+            <p className="text-gray-600 mb-2">
+              Endereço:{" "}
+              {CapitalizeWords(`${user.location.city}, ${user.location.state}`)}
+            </p>
+            <p className="text-gray-600 mb-2">
+              Cep: {`${user.location.postcode}`}
+            </p>
+
+            <p className="text-gray-600 mb-2">Telefone: {user.phone}</p>
+            <p className="text-gray-600 mb-2">Celular: {user.cell}</p>
+            <p className="text-gray-600 mb-2">
+              Aniversário: {DateTransformer(user.dob.date)}
+            </p>
+
+            <button
+              className="mt-4 text-center bg-blue-500 hover:bg-blue-700 text-white rounded p-2"
+              onClick={() => navigate("/")}
+            >
+              Voltar
+            </button>
+          </div>
+        )}
+      </section>
     </>
   );
 }
