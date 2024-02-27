@@ -24,7 +24,7 @@ export function Card({
       </h4>
 
       <p className="text-center text-sm pb-3">
-        {SepareteNumberFromString(adress)}
+        {CapitalizeWords(SepareteNumberFromString(adress))}
       </p>
 
       <span className="text-xs flex flex-col items-center">
