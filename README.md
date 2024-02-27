@@ -22,6 +22,6 @@ O JSON que você precisa desenvolver para este aplicativo está disponível em:
 - [x] ordenar por ordem alfabética nome ou sobrenome;
 - [x] Busca por nome e/ou sobrenome;
 - [x] Paginação para navegar entre cartões;
-- [ ] Navegação ao clicar em cartões de clientes;
 - [x] Uma página interna com mais detalhes dos clientes (use sua criatividade);
-- [x]Testes;
+- [x] Navegação ao clicar em cartões de clientes;
+- [ ]Testes;

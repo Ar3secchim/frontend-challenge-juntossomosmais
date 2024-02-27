@@ -65,9 +65,9 @@ export function ToggleList({ statesFilter, setStatesFilter, title }) {
           : "col-span-1 p-6 rounded-[4px] border-[0.5px] border-[#E5E5E5]"
       }
     >
-      {loadingState && <div>Carregando...</div>}
       <h2 className="pb-[14px] text-xl font-medium">{title}</h2>
 
+      {loadingState && <div>Carregando...</div>}
       <ul>{renderStates()}</ul>
 
       {!showFullList && (

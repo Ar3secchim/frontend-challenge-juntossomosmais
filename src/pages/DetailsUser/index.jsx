@@ -65,7 +65,7 @@ export function DetailsUser() {
         )}
 
         {!loading && !user && (
-          <div className="animate-pulse border-[0.5px] rounded-[4px] border-[#E5E5E5]bg-white p-8 flex flex-col items-center justify-center  mx-auto max-w-5xl my-9 ">
+          <div className="border-[0.5px] rounded-[4px] border-[#E5E5E5]bg-white p-8 flex flex-col items-center justify-center  mx-auto max-w-5xl my-9 ">
             Usuário não encontrado
             <button
               className="mt-4 text-center bg-blue-500 hover:bg-blue-700 text-white rounded p-2"

@@ -121,6 +121,8 @@ export function User() {
                             adressCep={user.location.postcode}
                             profile={user.picture.medium}
                           />
+
+                          
                         </Link>
                       ))}
               </div>

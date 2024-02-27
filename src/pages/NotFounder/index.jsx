@@ -16,7 +16,6 @@ export function NotFound() {
             navigate(-1);
           }}
         >
-          {"< Voltar"}
           <button
             onClick={() => {
               navigate(-1);
