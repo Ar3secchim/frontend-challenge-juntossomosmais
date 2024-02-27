@@ -31,6 +31,5 @@ export function useFetch() {
   return {
     users,
     loading,
-
   };
 }

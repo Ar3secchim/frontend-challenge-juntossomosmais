@@ -12,4 +12,4 @@ O JSON que você precisa desenvolver para este aplicativo está disponível em:
 - [x] Busca por nome e/ou sobrenome;
 - [x] Paginação para navegar entre cartões;
 - [ ] Navegação ao clicar em cartões de clientes;
-- [ ] Uma página interna com mais detalhes dos clientes (use sua criatividade);
+- [x] Uma página interna com mais detalhes dos clientes (use sua criatividade);
