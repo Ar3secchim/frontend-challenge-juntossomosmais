@@ -18,7 +18,9 @@ export function DetailsUser() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/`);
+        const response = await fetch(
+          `https://frontend-challenge-juntossomosmais-server.vercel.app/`
+        );
         if (!response.ok) {
           throw new Error("Erro ao obter os dados");
         }

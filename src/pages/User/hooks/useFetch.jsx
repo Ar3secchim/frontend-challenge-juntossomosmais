@@ -10,7 +10,7 @@ export function useFetch() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/page?page=${starOffset}&perPage=${endLimit}`
+        `https://frontend-challenge-juntossomosmais-server.vercel.app/page?page=${starOffset}&perPage=${endLimit}`
       );
       if (!response.ok) {
         throw new Error("Erro ao obter os dados");
