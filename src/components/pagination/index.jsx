@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ArrowLeft from "../ui/icons/arrow-down.svg"; // Assuming the correct icon path
-import ArrowRight from "../ui/icons/arrow-up.svg"; // Assuming the correct icon path
+import ArrowLeft from "../ui/icons/arrow-down.svg"; 
+import ArrowRight from "../ui/icons/arrow-up.svg"; 
 
 export function Pagination({ totalPages, setCurrentPage }) {
   var VISIBLE_PAGES = 3;
