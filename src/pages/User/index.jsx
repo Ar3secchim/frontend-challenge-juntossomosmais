@@ -4,7 +4,7 @@ import { ToggleList } from "@components/toogleList";
 import { Pagination } from "@components/pagination";
 import { Input } from "@components/input";
 import { useFetch } from "./hooks/useFetch";
-import { useShort } from "./hooks/useShortName";
+import { useShortName } from "./hooks/useShortName";
 import { Header } from "@components/header";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@components/skeleton";
@@ -12,7 +12,7 @@ import { Skeleton } from "@components/skeleton";
 const URL_API = "https://frontend-challenge-juntossomosmais-server.vercel.app/";
 
 export function User() {
-  const {data , loading} = useFetch(URL_API);
+  const { data, loading } = useFetch(URL_API);
   const [userState, setUserState] = useState({
     sortType: "name",
     searchTerm: "",
@@ -21,39 +21,43 @@ export function User() {
     itemsPerPage: 9,
   });
 
-  const sortedUsers = useShort(data, userState.sortType);
+  const sortedAndFilteredUsers = useMemo(() => {
+    let filteredUsers = data;
 
-  const filteredUsers = useMemo(() => {
-    let filtered = sortedUsers;
-
-    if (userState.stateFilter.length) {
-      filtered = filtered.filter((user) =>
+    if (userState.stateFilter.length > 0) {
+      filteredUsers = filteredUsers.filter((user) =>
         userState.stateFilter.includes(user.location.state)
       );
     }
 
     if (userState.searchTerm) {
       const searchTermLower = userState.searchTerm.toLowerCase();
-      filtered = filtered.filter((user) => {
+      filteredUsers = filteredUsers.filter((user) => {
         const nameMatch =
           user.name.first.toLowerCase().includes(searchTermLower) ||
           user.name.last.toLowerCase().includes(searchTermLower);
         return nameMatch;
       });
     }
-    return filtered;
-  }, [
-    userState.searchTerm,
-    userState.stateFilter,
-    userState.sortType,
-    sortedUsers,
-  ]);
 
-  const totalPages = Math.ceil(filteredUsers.length / userState.itemsPerPage);
+    const sortedUsers = [...filteredUsers].sort((a, b) => {
+      if (userState.sortType === "name") {
+        return a.name.first.localeCompare(b.name.first);
+      } else if (userState.sortType === "lastName") {
+        return a.name.last.localeCompare(b.name.last);
+      }
+    });
+
+    return sortedUsers;
+  }, [data, userState.searchTerm, userState.stateFilter, userState.sortType]);
+
+  const totalPages = Math.ceil(
+    sortedAndFilteredUsers.length / userState.itemsPerPage
+  );
   const startIndex = userState.currentPage * userState.itemsPerPage;
   const endIndex = Math.min(
     startIndex + userState.itemsPerPage,
-    filteredUsers.length
+    sortedAndFilteredUsers.length
   );
 
   const handleSearchChange = (event) => {
@@ -109,8 +113,8 @@ export function User() {
               <div className="h-14 flex justify-between items-center border-[0.5px] rounded-[4px] border-[#E5E5E5] px-6 py-2">
                 <p>{`Exibindo ${startIndex + 1} - ${Math.min(
                   endIndex,
-                  filteredUsers.length
-                )} de ${filteredUsers.length} itens`}</p>
+                  sortedAndFilteredUsers.length
+                )} de ${sortedAndFilteredUsers.length} itens`}</p>
 
                 <div className="text-sm ">
                   Ordenar por:
@@ -126,13 +130,13 @@ export function User() {
               </div>
 
               <div className="flex flex-wrap gap-4">
-                {!loading && filteredUsers.length === 0 && (
+                {!loading && sortedAndFilteredUsers.length === 0 && (
                   <p className="font-bold">Nenhum usuário encontrado</p>
                 )}
 
                 {loading
                   ? [...Array(8)].map((_, index) => <Skeleton key={index} />)
-                  : filteredUsers
+                  : sortedAndFilteredUsers
                       .slice(startIndex, endIndex)
                       .map((user, index) => (
                         <Link

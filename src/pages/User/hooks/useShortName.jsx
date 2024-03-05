@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function useShort(data, sortType) {
+export function useShortName(data, sortType) {
   const [sortedUsers, setSortedUsers] = useState([]);
 
   useEffect(() => {
