@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { searchUserByName } from "./hook";
 import { useEffect, useState } from "react";
-import { Header } from "../../components/header";
-import { CapitalizeWords } from "../../utils/capitalizeWords";
+import { Header } from "@components/header";
+import { CapitalizeWords } from "@utils/capitalizeWords";
 import { DateTransformer } from "./utils/dateTransformer";
-import skeletonImg from "../../components/ui/skeletonImg.png";
+import skeletonImg from "@components/ui/skeletonImg.png";
 
 export function DetailsUser() {
   const [users, setUsers] = useState([]);

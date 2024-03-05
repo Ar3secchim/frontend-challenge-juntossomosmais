@@ -1,5 +1,5 @@
-import { CapitalizeWords } from "../../utils/capitalizeWords";
-import { SepareteNumberFromString } from "../../utils/separeteNumberFromString";
+import { CapitalizeWords } from "@utils/capitalizeWords";
+import { SepareteNumberFromString } from "@utils/separeteNumberFromString";
 
 export function Card({
   name,

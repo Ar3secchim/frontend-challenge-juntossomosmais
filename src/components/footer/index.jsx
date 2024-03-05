@@ -1,4 +1,4 @@
-import Logo from "../../assets/logo-pb.svg";
+import Logo from "@/assets/logo-pb.svg";
 import Linkedin from "../ui/icons/linkedin.svg";
 import Facebook from "../ui/icons/facebook.svg";
 import Instagram from "../ui/icons/instagram.svg";

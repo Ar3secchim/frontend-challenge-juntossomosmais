@@ -1,4 +1,4 @@
-import skeletonImg from "../../components/ui/skeletonImg.png";
+import skeletonImg from "@components/ui/skeletonImg.png";
 
 export function Skeleton() {
   return (

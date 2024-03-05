@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
-import { Card } from "../../components/card";
-import { ToggleList } from "../../components/toogleList";
-import { Pagination } from "../../components/pagination";
-import { Input } from "../../components/input";
+import { Card } from "@components/card";
+import { ToggleList } from "@components/toogleList";
+import { Pagination } from "@components/pagination";
+import { Input } from "@components/input";
 import { useFetch } from "./hooks/useFetch";
 import { useShort } from "./hooks/useShortName";
-import { Header } from "../../components/header";
+import { Header } from "@components/header";
 import { Link } from "react-router-dom";
-import { Skeleton } from "../../components/skeleton";
+import { Skeleton } from "@components/skeleton";
 
 export function User() {
   const { users: allUsers, loading } = useFetch();

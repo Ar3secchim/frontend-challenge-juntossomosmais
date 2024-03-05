@@ -1,4 +1,4 @@
-import { CapitalizeWords } from "../../utils/capitalizeWords";
+import { CapitalizeWords } from "@utils/capitalizeWords";
 import { useGetStages } from "./useGetStates";
 import { useState } from "react";
 

@@ -1,6 +1,6 @@
-import Logo from "/src/assets/logo.svg";
+import Logo from "@/assets/logo.svg";
 
-export function Header({children}) {
+export function Header({ children }) {
   return (
     <header className="mx-auto xl:px-40 px-12 py-5 flex items-center justify-between bg-gray-100">
       <section>
