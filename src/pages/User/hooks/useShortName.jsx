@@ -6,20 +6,22 @@ export function useShort(allUsers, sortType) {
   useEffect(() => {
     const sortUsers = () => {
       if (sortType === "name") {
-        setSortedUsers(
+        return setSortedUsers(
           allUsers
             .slice()
             .sort((a, b) => a.name.first.localeCompare(b.name.first))
         );
-      } else if (sortType === "lastName") {
-        setSortedUsers(
+      }
+
+      if (sortType === "lastName") {
+        return setSortedUsers(
           allUsers
             .slice()
             .sort((a, b) => a.name.last.localeCompare(b.name.last))
         );
-      } else {
-        setSortedUsers([...allUsers]);
       }
+
+      return setSortedUsers([...allUsers]);
     };
     sortUsers();
   }, [allUsers, sortType]);
