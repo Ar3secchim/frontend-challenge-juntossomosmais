@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-export function useShort(allUsers, sortType) {
+export function useShort(data, sortType) {
   const [sortedUsers, setSortedUsers] = useState([]);
 
   useEffect(() => {
     const sortUsers = () => {
       if (sortType === "name") {
         return setSortedUsers(
-          allUsers
+          data
             .slice()
             .sort((a, b) => a.name.first.localeCompare(b.name.first))
         );
@@ -15,16 +15,16 @@ export function useShort(allUsers, sortType) {
 
       if (sortType === "lastName") {
         return setSortedUsers(
-          allUsers
+          data
             .slice()
             .sort((a, b) => a.name.last.localeCompare(b.name.last))
         );
       }
 
-      return setSortedUsers([...allUsers]);
+      return setSortedUsers([...data]);
     };
     sortUsers();
-  }, [allUsers, sortType]);
+  }, [data, sortType]);
 
   return sortedUsers;
 }

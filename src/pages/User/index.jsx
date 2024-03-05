@@ -9,8 +9,10 @@ import { Header } from "@components/header";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@components/skeleton";
 
+const URL_API = "https://frontend-challenge-juntossomosmais-server.vercel.app/";
+
 export function User() {
-  const { users: allUsers, loading } = useFetch();
+  const {data , loading} = useFetch(URL_API);
   const [userState, setUserState] = useState({
     sortType: "name",
     searchTerm: "",
@@ -19,7 +21,7 @@ export function User() {
     itemsPerPage: 9,
   });
 
-  const sortedUsers = useShort(allUsers, userState.sortType);
+  const sortedUsers = useShort(data, userState.sortType);
 
   const filteredUsers = useMemo(() => {
     let filtered = sortedUsers;
@@ -58,7 +60,7 @@ export function User() {
     setUserState((prevState) => ({
       ...prevState,
       searchTerm: event.target.value,
-      currentPage: 0, 
+      currentPage: 0,
     }));
   };
 

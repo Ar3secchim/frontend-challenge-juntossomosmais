@@ -1,26 +1,23 @@
 import { useEffect, useState } from "react";
 
-export function useFetch() {
-  const [users, setUsers] = useState([]);
-  const [loading, setIsLoading] = useState(true);
-
-  const starOffset = 1 ;
-  const endLimit = 200 ;
+export function useFetch(url) {
+  const [fetchState, setFetchState] = useState({
+    data: [],
+    loading: true,
+  });
 
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        `https://frontend-challenge-juntossomosmais-server.vercel.app/page?page=${starOffset}&perPage=${endLimit}`
-      );
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error("Erro ao obter os dados");
       }
-      const data = await response.json();
-      setUsers(data);
+      
+      const responseData = await response.json();
+      setFetchState({ data: responseData, loading: false });
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
+      setFetchState({ data: [], loading: false });
     }
   };
 
@@ -29,7 +26,7 @@ export function useFetch() {
   }, []);
 
   return {
-    users,
-    loading,
+    data: fetchState.data,
+    loading: fetchState.loading,
   };
 }
