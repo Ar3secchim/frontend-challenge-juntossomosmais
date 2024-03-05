@@ -20,15 +20,15 @@ test("renders input field with placeholder, value and search icon", () => {
 });
 
 test("calls searchChange function on input change", () => {
-  const mockSearchChange = jest.fn("");
-  const mockSearchTerm = "";
+  const mockSearchChange = jest.fn();
 
-  render(<Input searchChange={mockSearchChange} searchTerm={mockSearchTerm} />);
+  render(<Input onChangeSearch={mockSearchChange} searchTerm="" />);
 
   const input = screen.getByPlaceholderText("Buscar aqui");
+  console.log(input.value);
   fireEvent.change(input, { target: { value: "search" } });
-
+  console.log(input.value);
+  
   expect(mockSearchChange).toHaveBeenCalledTimes(1);
-  //expect(mockSearchChange).toHaveBeenCalledWith("search");
-  //expect(input.value).toBe("search");
+  expect(input.value).toBe("search");
 });
