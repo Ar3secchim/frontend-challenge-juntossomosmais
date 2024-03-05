@@ -20,7 +20,7 @@ export function Card({
       />
 
       <h4 className="font-bold text-xl pb-4 text-center">
-        {capitalizeWords(name) + " " + capitalizeWords(lastName)}
+        {`${capitalizeWords(name)} ${" "} ${capitalizeWords(lastName)}`}
       </h4>
 
       <p className="text-center text-sm pb-3">
