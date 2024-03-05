@@ -2,8 +2,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { searchUserByName } from "./hook";
 import { useEffect, useState } from "react";
 import { Header } from "@components/header";
-import { CapitalizeWords } from "@utils/capitalizeWords";
-import { DateTransformer } from "./utils/dateTransformer";
+import { capitalizeWords } from "@utils/capitalizeWords";
+import { dateTransformer } from "./utils/dateTransformer";
 import skeletonImg from "@components/ui/skeletonImg.png";
 
 export function DetailsUser() {
@@ -88,12 +88,12 @@ export function DetailsUser() {
             />
 
             <h2 className="text-2xl font-bold text-gray-800">
-              {CapitalizeWords(`${user.name.first} ${user.name.last}`)}
+              {capitalizeWords(`${user.name.first} ${user.name.last}`)}
             </h2>
             <p className="text-gray-600 mb-2">Email: {user.email}</p>
             <p className="text-gray-600 mb-2">
               Endereço:{" "}
-              {CapitalizeWords(`${user.location.city}, ${user.location.state}`)}
+              {capitalizeWords(`${user.location.city}, ${user.location.state}`)}
             </p>
             <p className="text-gray-600 mb-2">
               Cep: {`${user.location.postcode}`}
@@ -102,7 +102,7 @@ export function DetailsUser() {
             <p className="text-gray-600 mb-2">Telefone: {user.phone}</p>
             <p className="text-gray-600 mb-2">Celular: {user.cell}</p>
             <p className="text-gray-600 mb-2">
-              Aniversário: {DateTransformer(user.dob.date)}
+              Aniversário: {dateTransformer(user.dob.date)}
             </p>
 
             <button

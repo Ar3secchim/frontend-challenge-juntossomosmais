@@ -1,4 +1,4 @@
-export function CapitalizeWords(sentence) {
+export function capitalizeWords(sentence) {
   const words = sentence.split(" ");
 
   const capitalizedWords = words.map((word) => {

@@ -1,4 +1,4 @@
-export function SepareteNumberFromString(str) {
+export function separeteNumberFromString(str) {
   const matches = str.match(/\d+/);
 
   if (matches) {

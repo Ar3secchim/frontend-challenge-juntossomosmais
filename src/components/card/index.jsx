@@ -1,5 +1,5 @@
-import { CapitalizeWords } from "@utils/capitalizeWords";
-import { SepareteNumberFromString } from "@utils/separeteNumberFromString";
+import { capitalizeWords } from "@utils/capitalizeWords";
+import { separeteNumberFromString } from "@utils/separeteNumberFromString";
 
 export function Card({
   name,
@@ -20,17 +20,17 @@ export function Card({
       />
 
       <h4 className="font-bold text-xl pb-4 text-center">
-        {CapitalizeWords(name) + " " + CapitalizeWords(lastName)}
+        {capitalizeWords(name) + " " + capitalizeWords(lastName)}
       </h4>
 
       <p className="text-center text-sm pb-3">
-        {CapitalizeWords(SepareteNumberFromString(adress))}
+        {capitalizeWords(separeteNumberFromString(adress))}
       </p>
 
       <span className="text-xs flex flex-col items-center">
-        <p>{CapitalizeWords(city)}</p>
+        <p>{capitalizeWords(city)}</p>
         <p>
-          {CapitalizeWords(state)} - CEP: {adressCep}
+          {capitalizeWords(state)} - CEP: {adressCep}
         </p>
       </span>
     </div>

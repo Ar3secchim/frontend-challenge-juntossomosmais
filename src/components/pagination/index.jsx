@@ -2,8 +2,8 @@ import { useState } from "react";
 import ArrowLeft from "../ui/icons/arrow-down.svg"; 
 import ArrowRight from "../ui/icons/arrow-up.svg"; 
 
+const VISIBLE_PAGES = 3;
 export function Pagination({ totalPages, setCurrentPage }) {
-  var VISIBLE_PAGES = 3;
   const [currentPage, setCurrentPageState] = useState(0);
 
   const handleClick = (pageNumber) => {

@@ -1,4 +1,4 @@
-import { CapitalizeWords } from "@utils/capitalizeWords";
+import { capitalizeWords } from "@utils/capitalizeWords";
 import { useGetStages } from "./useGetStates";
 import { useState } from "react";
 
@@ -27,7 +27,7 @@ export function ToggleList({ statesFilter, setStatesFilter, title }) {
             checked={statesFilter.includes(state)}
             onChange={() => toggleState(state)}
           />
-          {CapitalizeWords(state)}
+          {capitalizeWords(state)}
         </li>
       ));
     }
@@ -42,7 +42,7 @@ export function ToggleList({ statesFilter, setStatesFilter, title }) {
           checked={statesFilter.includes(state)}
           onChange={() => toggleState(state)}
         />
-        {CapitalizeWords(state)}
+        {capitalizeWords(state)}
       </li>
     ));
   };
